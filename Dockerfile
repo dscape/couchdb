@@ -25,7 +25,7 @@ run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
 run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
 run update-rc.d couchdb defaults
 run /etc/init.d/couchdb start
-run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /etc/couchdb/default.ini
+run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /usr/local/etc/couchdb/default.ini
 
 expose 5984
 

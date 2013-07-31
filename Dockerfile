@@ -24,7 +24,6 @@ run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb 2&>1
 run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
 run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
 run update-rc.d couchdb defaults
-run service couchdb status
 run service couchdb start
 run curl localhost:5984
 

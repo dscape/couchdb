@@ -20,7 +20,7 @@ run chown -R couchdb /usr/local/var/lib/couchdb /usr/local/var/log/couchdb /usr/
 run chmod 0770 /usr/local/var/lib/couchdb /usr/local/var/log/couchdb /usr/local/var/run/couchdb
 run chmod 664 /usr/local/etc/couchdb/*.ini
 run chmod 775 /usr/local/etc/couchdb/*.d
-run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb
+run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb 2&>1 /dev/null
 run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
 run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
 run update-rc.d couchdb defaults

@@ -28,4 +28,5 @@ run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /usr/local/etc/cou
 
 expose 5984
 
-cmd ["/bin/bash", "-c", "service couchdb start"]
+cmd /bin/bash -c "couchdb -a /usr/local/etc/couchdb/default.ini -a /usr/local/etc/couchdb/local.ini -b -r 5 -p /usr/local/var/run/couchdb/couchdb.pid -R"
+

@@ -16,7 +16,7 @@ run mkdir /opt/install && cd /opt/install && wget http://mirrors.fe.up.pt/pub/ap
 run cd /opt/install && tar xvzf apache-couchdb-1.3.1.tar.gz
 run cd /opt/install/apache-couchdb-* && ./configure && make && make install
 run useradd -d /var/lib/couchdb couchdb
-run chown -R couchdb: /usr/local/var/{lib,log,run}/couchdb /usr/local/etc/couchdb
+run chown -R couchdb /usr/local/var/lib/couchdb /usr/local/var/log/couchdb /usr/local/var/run/couchdb /usr/local/etc/couchdb
 run chmod 0770 /usr/local/var/{lib,log,run}/couchdb/
 run chmod 664 /usr/local/etc/couchdb/*.ini
 run chmod 775 /usr/local/etc/couchdb/*.d

@@ -24,9 +24,8 @@ run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb 2&>1
 run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
 run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
 run update-rc.d couchdb defaults
-run /etc/init.d/couchdb start
 run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /usr/local/etc/couchdb/default.ini
 
 expose 5984
 
-cmd ["/bin/sh", "-e", "service couchdb start"]
+cmd ["/bin/bash", "-c", "service couchdb start"]

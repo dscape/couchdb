@@ -9,7 +9,7 @@ run echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt
 
 run apt-get update
 run apt-get upgrade
-run apt-get install git make gcc build-essential -y
+run apt-get install git make gcc build-essential wget -y
 run apt-get install -y erlang-dev erlang-manpages erlang-base-hipe erlang-eunit erlang-nox erlang-xmerl erlang-inets libmozjs185-dev libicu-dev libcurl4-gnutls-dev libtool
 
 run mkdir /opt/install && cd /opt/install && wget http://mirrors.fe.up.pt/pub/apache/couchdb/source/1.3.1/apache-couchdb-1.3.1.tar.gz

@@ -15,9 +15,6 @@ run apt-get install -y erlang-dev erlang-manpages erlang-base-hipe erlang-eunit 
 run mkdir /opt/install && cd /opt/install && wget http://mirrors.fe.up.pt/pub/apache/couchdb/source/1.3.1/apache-couchdb-1.3.1.tar.gz
 run cd /opt/install && tar xvzf apache-couchdb-1.3.1.tar.gz
 run cd /opt/install/apache-couchdb-* && ./configure && make && make install
-run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb
-run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
-run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
 run update-rc.d couchdb defaults
 run service couchdb start
 

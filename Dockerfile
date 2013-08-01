@@ -45,6 +45,14 @@ run cd /opt/install && git clone git://github.com/bumptech/stud.git && cd stud &
 run mkdir /var/run/stud && mkdir /usr/local/var/run/stud && mkdir /usr/local/etc/stud && touch /usr/local/etc/stud/stud.conf && touch /usr/local/etc/stud/stud.pem && useradd -d /var/lib/_stud _stud && chown _stud: /usr/local/etc/stud/stud.pem && chown _stud: /var/run/stud && chown -R _stud: /usr/local/var/run/stud /usr/local/etc/stud && chmod 0770 /usr/local/var/run/stud/ && chmod 664 /usr/local/etc/stud/*.conf && chmod 600 /usr/local/etc/stud/stud.pem && mkdir /etc/stud && touch /etc/stud/stud.conf && touch /etc/init.d/stud && chmod +x /etc/init.d/stud
 
 #
+# generate a pem file for stud
+# self signed certificate with randomly generated key
+#
+# in production use "yourdomain"
+#
+run cd /root/.ssh/ && ssh-keygen -t rsa -N "" -f /root/.ssh/id_stud && openssl req -new -key id_stud -out server_stud.csr -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=stud.org" && openssl x509 -req -days 365 -in server_stud.csr -signkey /root/.ssh/id_stud -out server_stud.crt && cat id_stud > /usr/local/etc/stud/stud.pem && cat server_stud.crt >> /usr/local/etc/stud/stud.pem 
+
+#
 # manually link files
 #
 add ./ /
@@ -63,5 +71,5 @@ expose 6984
 
 # `cmd` will be run when someone docker runs an image
 # e.g. after docker pull dscape/couchdb
-cmd /bin/bash -c "service stud start && couchdb -a /usr/local/etc/couchdb/default.ini -a /usr/local/etc/couchdb/local.ini -b -r 5 -p /usr/local/var/run/couchdb/couchdb.pid -R"
+cmd /bin/bash -c "stud --ssl -n 2 -s -f "[*]:6984" -b "[127.0.0.1]:5984" /usr/local/etc/stud/stud.pem && couchdb -a /usr/local/etc/couchdb/default.ini -a /usr/local/etc/couchdb/local.ini -b -r 5 -p /usr/local/var/run/couchdb/couchdb.pid -R"
 

@@ -50,7 +50,7 @@ run mkdir /var/run/stud && mkdir /usr/local/var/run/stud && mkdir /usr/local/etc
 #
 # in production use "yourdomain"
 #
-run cd ~ && mkdir generate_keys && cd generate_keys && ssh-keygen -t rsa -N "" -f ~/generate_keys/id_stud && openssl req -new -key id_stud -out server_stud.csr -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=foo.org" && openssl x509 -req -days 365 -in server_stud.csr -signkey ~/generate_keys/id_stud -out server_stud.crt && cat id_stud > /usr/local/etc/stud/stud.pem && cat server_stud.crt >> /usr/local/etc/stud/stud.pem 
+run cd ~ && mkdir generate_keys && cd generate_keys && ssh-keygen -t rsa -N "" -f ~/generate_keys/id_stud && openssl req -new -key id_stud -out server_stud.csr -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=foo.org" && openssl x509 -req -days 365 -in server_stud.csr -signkey ~/generate_keys/id_stud -out server_stud.crt && cat id_stud > /usr/local/etc/stud/stud.pem && cat server_stud.crt >> /usr/local/etc/stud/stud.pem  && openssl dhparam -rand - 1024 >> /usr/local/etc/stud/stud.pem
 
 #
 # manually link files
@@ -71,5 +71,5 @@ expose 6984
 
 # `cmd` will be run when someone docker runs an image
 # e.g. after docker pull dscape/couchdb
-cmd /bin/bash -c "stud --ssl -n 2 -s -f "[*]:6984" -b "[127.0.0.1]:5984" /usr/local/etc/stud/stud.pem && couchdb -a /usr/local/etc/couchdb/default.ini -a /usr/local/etc/couchdb/local.ini -b -r 5 -p /usr/local/var/run/couchdb/couchdb.pid -R"
+cmd /bin/bash -c "couchdb -a /usr/local/etc/couchdb/default.ini -a /usr/local/etc/couchdb/local.ini -b -r 5 -p /usr/local/var/run/couchdb/couchdb.pid; stud --ssl -s -f "[*]:6984" -b "[127.0.0.1]:5984" /usr/local/etc/stud/stud.pem"
 

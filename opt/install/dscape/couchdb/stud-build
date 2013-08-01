@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /opt/install/stud
+cd /opt/install/stud-*
 make
 make install

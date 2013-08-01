@@ -10,10 +10,7 @@ maintainer Nuno Job "nunojobpinto@gmail.com"
 # define an helper function to run command in verbose mode
 # so that docker does not invalidate cache on each run
 #
-function preserve_caches {
-  long_cmd=$(< $1)
-  echo "$long_cmd"
-}
+run . /opt/install/dscape/couchdb/preserve_caches
 
 #
 # adds the installation scripts to the image

@@ -1,0 +1,197 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          stud
+# Required-Start:    $remote_fs $network $local_fs
+# Required-Stop:     $remote_fs $network $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: The Scalable TLS Unwrapping Daemon
+# Description:       stud is a network proxy that terminates TLS/SSL
+#                    connections and forwards the unencrypted traffic
+#                    to some backend.
+### END INIT INFO
+
+# Author: Christo Buschek <crito@30loops.net>
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC=stud
+NAME=stud
+DAEMON=/usr/bin/stud
+SCRIPTNAME=/etc/init.d/$NAME
+FILES="/etc/stud/*.conf"
+USER="_stud"
+
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+[ -x $DAEMON ] || exit 0
+
+stat -t $FILES > /dev/null 2>&1 || exit 0
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+do_chroot() {
+  oldumask=$(umask)
+  umask 022
+  [ -d $CHROOT ] || mkdir -p $CHROOT
+  umask $oldumask
+}
+
+do_start()
+{
+  # Return
+  #   0 if daemon has been started
+  #   1 if daemon was already running
+  #   2 if daemon could not be started
+  do_chroot
+  notfound=1
+  for conf in $FILES; do
+    if test -f $conf; then
+      BASE=$(basename $conf)
+      PIDFILE=/var/run/stud.${BASE}.pid
+      . $conf
+      if ! start-stop-daemon --start --quiet --pidfile $PIDFILE \
+        --exec $DAEMON --test > /dev/null; then
+        log_progress_msg "[Already running: ${BASE}]"
+      else
+        start-stop-daemon --start --quiet --pidfile $PIDFILE \
+          --exec $DAEMON -b -m -- \
+          $COMMON_OPTIONS $OPTIONS $CERT \
+        || {
+          log_progress_msg "[Failed: ${BASE}]"
+          return 2
+        }
+        log_progress_msg "[Started: ${BASE}]"
+        notfound=0
+      fi
+    fi
+  done
+  return $notfound
+}
+
+do_stop()
+{
+  # Return
+  #   0 if daemon has been stopped
+  #   1 if daemon was already stopped
+  #   2 if daemon could not be stopped
+  #   other if a failure occurred
+  notfound=1
+  notstopped=0
+  for conf in $FILES; do
+    if test -f $conf; then
+      BASE=$(basename $conf)
+      PIDFILE=/var/run/stud.${BASE}.pid
+      . $conf
+      start-stop-daemon --stop --quiet --retry=TERM/10/KILL/5 \
+        --pidfile $PIDFILE --name $NAME
+      RETVAL="$?"
+      if [ "$RETVAL" = 2 ]; then
+        log_progress_msg "[Unable to stop: ${BASE}]"
+        notstopped=1
+      else
+        log_progress_msg "[Stop: ${BASE}]"
+        rm -f $PIDFILE
+      fi
+    fi
+  done
+  [ $notstopped -eq 1 ] && return 2
+  [ $notfound -eq 1 ] && return 1
+  return 0
+}
+
+#
+# Function that sends a SIGHUP to the daemon/service
+#
+do_reload() {
+  #
+  # If the daemon can reload its configuration without
+  # restarting (for example, when it is sent a SIGHUP),
+  # then implement that here.
+  #
+  start-stop-daemon --stop --signal 1 --quiet --pidfile $PIDFILE --name $NAME
+  return 0
+}
+
+#
+# Get the status of each daemon
+#
+do_status() {
+  RETVAL=0
+  for conf in $FILES; do
+    if test -f $conf; then
+      BASE=$(basename $conf)
+      PIDFILE=/var/run/stud.${BASE}.pid
+      . $conf
+      status=0
+      pidofproc -p $PIDFILE $DAEMON > /dev/null || status="$?"
+      case "$status" in
+        0)
+          log_progress_msg "[${BASE}: ok]"
+          ;;
+        4)
+          log_progress_msg "[${BASE}: cannot read PID file]"
+          RETVAL=$status
+          ;;
+        *)
+          log_progress_msg "[${BASE}: not running]"
+          RETVAL=$status
+          ;;
+      esac
+    fi
+  done
+  return $RETVAL
+}
+case "$1" in
+  start)
+   log_daemon_msg "Starting $DESC" "$NAME"
+  do_start
+  case "$?" in
+    0|1) log_end_msg 0 ;;
+    2) log_end_msg 1 ;;
+  esac
+  ;;
+  stop)
+   log_daemon_msg "Stopping $DESC" "$NAME"
+  do_stop
+  case "$?" in
+    0|1) log_end_msg 0 ;;
+    2) log_end_msg 1 ;;
+  esac
+  ;;
+  restart|force-reload)
+  #
+  # If the "reload" option is implemented then remove the
+  # 'force-reload' alias
+  #
+  log_daemon_msg "Restarting $DESC" "$NAME"
+  do_stop
+  case "$?" in
+    0|1)
+    do_start
+    case "$?" in
+      0) log_end_msg 0 ;;
+      1) log_end_msg 1 ;; # Old process is still running
+      *) log_end_msg 1 ;; # Failed to start
+    esac
+    ;;
+    *)
+      # Failed to stop
+    log_end_msg 1
+    ;;
+  esac
+  ;;
+  status)
+  log_daemon_msg "Checking status of $DESC" "$NAME"
+        do_status
+  log_end_msg "$?"
+  exit "$?"
+  ;;
+  *)
+  echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload|status}" >&2
+  exit 3
+  ;;
+esac
+
+:

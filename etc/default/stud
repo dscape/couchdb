@@ -1,0 +1,4 @@
+PATH=/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin
+DAEMON=/usr/local/bin/stud
+CHROOT="/usr/local/var/run/stud"
+COMMON_OPTIONS="-r $CHROOT -u $USER --config /usr/local/etc/stud/stud.conf"

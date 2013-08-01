@@ -15,20 +15,13 @@ maintainer Nuno Job "nunojobpinto@gmail.com"
 add ./opt /opt
 
 #
-# define an helper function to run command in verbose mode
-# so that docker does not invalidate cache on each run
-#
-run touch ~/.profile
-run cat /opt/install/dscape/couchdb/preserve_caches >> ~/.profile
-
-#
 # run are steps that are run to create the image
 #
 
 #
 # update/upgrade apt
 #
-run $(preserve_caches /opt/install/dscape/couchdb/apt-update)
+run $(< /opt/install/dscape/couchdb/apt-update)
 
 #
 # running scripts in individual scripts makes your scm happy

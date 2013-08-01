@@ -21,7 +21,7 @@ add ./opt /opt
 #
 # update/upgrade apt
 #
-run $(< /opt/install/dscape/couchdb/apt-update)
+run /opt/install/dscape/couchdb/apt-update
 
 #
 # running scripts in individual scripts makes your scm happy

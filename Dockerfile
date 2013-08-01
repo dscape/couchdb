@@ -24,6 +24,14 @@ add ./opt /opt
 run /opt/install/dscape/couchdb/apt-update
 
 #
+# running scripts in individual scripts makes your scm happy
+# and is much more manageable, etc
+#
+# however, bummer is that it invalidates caches
+#
+
+
+#
 # install couchdb dependencies
 #
 run /opt/install/dscape/couchdb/couchdb-deps

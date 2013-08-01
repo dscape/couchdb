@@ -50,7 +50,7 @@ run mkdir /var/run/stud && mkdir /usr/local/var/run/stud && mkdir /usr/local/etc
 #
 # in production use "yourdomain"
 #
-run cd ~ && mkdir generate_keys && cd generate_keys && ssh-keygen -t rsa -N "" -f ~/generate_keys/id_stud && openssl req -new -key id_stud -out server_stud.csr -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=foo.org" && openssl x509 -req -days 365 -in server_stud.csr -signkey /root/.ssh/id_stud -out server_stud.crt && cat id_stud > /usr/local/etc/stud/stud.pem && cat server_stud.crt >> /usr/local/etc/stud/stud.pem 
+run cd ~ && mkdir generate_keys && cd generate_keys && ssh-keygen -t rsa -N "" -f ~/generate_keys/id_stud && openssl req -new -key id_stud -out server_stud.csr -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=foo.org" && openssl x509 -req -days 365 -in server_stud.csr -signkey ~/generate_keys/id_stud -out server_stud.crt && cat id_stud > /usr/local/etc/stud/stud.pem && cat server_stud.crt >> /usr/local/etc/stud/stud.pem 
 
 #
 # manually link files

@@ -35,7 +35,6 @@ run chmod 775 /usr/local/etc/couchdb/*.d
 run rm /etc/logrotate.d/couchdb /etc/init.d/couchdb 2&>1
 run ln -s /usr/local/etc/logrotate.d/couchdb /etc/logrotate.d/couchdb
 run ln -s /usr/local/etc/init.d/couchdb  /etc/init.d/couchdb
-run update-rc.d couchdb defaults
 run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /usr/local/etc/couchdb/default.ini
 
 #
@@ -59,23 +58,18 @@ run mkdir /etc/stud
 run touch /etc/stud/stud.conf
 run touch /etc/init.d/stud
 run chmod +x /etc/init.d/stud
-update-rc.d stud defaults
 
 #
 # manually link files
 #
-add ./etc/default/stud /etc/default/stud
-add ./etc/init.d/stud /etc/init.d/stud
-add ./usr/local/etc/couchdb/local.ini /usr/local/etc/couchdb/local.ini
+add ./ /
 
 #
-# to avoid saturating the filesystem
-# i know, this is pretty crazy
+# update those defaults
 #
-run sleep 1
+update-rc.d stud defaults
+run update-rc.d couchdb defaults
 
-add ./usr/local/etc/stud/stud.conf /usr/local/etc/stud/stud.conf
-add ./usr/local/etc/stud/stud.pem /usr/local/etc/stud/stud.pem
 
 #
 # what port to expose

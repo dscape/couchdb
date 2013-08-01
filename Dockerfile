@@ -57,7 +57,6 @@ run chmod 664 /usr/local/etc/stud/*.conf
 run chmod 600 /usr/local/etc/stud/stud.pem
 run mkdir /etc/stud
 run touch /etc/stud/stud.conf
-run rm /etc/init.d/stud
 run touch /etc/init.d/stud
 run chmod +x /etc/init.d/stud
 update-rc.d stud defaults

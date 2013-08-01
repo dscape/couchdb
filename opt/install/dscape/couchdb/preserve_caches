@@ -2,4 +2,4 @@
 function preserve_caches {
   long_cmd=$(< $1)
   echo "$long_cmd"
-}'
+}

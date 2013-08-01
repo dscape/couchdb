@@ -8,8 +8,15 @@ maintainer Nuno Job "nunojobpinto@gmail.com"
 
 #
 # adds the installation scripts to the image
+#
+# same as a recursive copy of the opt/ folder in this repo
+# to /opt
 # 
 add ./opt /opt
+
+#
+# run are steps that are run to create the image
+#
 
 #
 # update/upgrade apt
@@ -72,6 +79,18 @@ run update-rc.d couchdb defaults
 #
 expose 6984
 
+#
 # `cmd` will be run when someone docker runs an image
 # e.g. after docker pull dscape/couchdb
+#
+
+#
+# generate a new pem file so that you don't end up using the one
+# that comes bundled in the image
+#
+cmd /opt/stud-generate-self-signed-pem
+
+#
+# start stud and couchdb
+#
 cmd /opt/start

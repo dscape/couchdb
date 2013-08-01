@@ -1,0 +1,6 @@
+#!/bin/bash
+
+apt-get install -y git make gcc build-essential wget
+apt-get install -y erlang-dev erlang-manpages erlang-base-hipe \
+  erlang-eunit erlang-nox erlang-xmerl erlang-inets libmozjs185-dev \
+  libicu-dev libcurl4-gnutls-dev libtool

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+couchdb -a /usr/local/etc/couchdb/default.ini \
+  -a /usr/local/etc/couchdb/local.ini -b -r 5 \
+  -p /usr/local/var/run/couchdb/couchdb.pid
+
+stud --ssl -s -f "[*]:6984" -b "[127.0.0.1]:5984" /usr/local/etc/stud/stud.pem

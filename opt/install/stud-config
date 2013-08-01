@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mkdir /var/run/stud
+mkdir /usr/local/var/run/stud
+mkdir /usr/local/etc/stud
+touch /usr/local/etc/stud/stud.conf
+touch /usr/local/etc/stud/stud.pem
+useradd -d /var/lib/_stud _stud
+chown _stud: /usr/local/etc/stud/stud.pem
+chown _stud: /var/run/stud
+chown -R _stud: /usr/local/var/run/stud /usr/local/etc/stud
+chmod 0770 /usr/local/var/run/stud
+chmod 664 /usr/local/etc/stud/*.conf
+chmod 600 /usr/local/etc/stud/stud.pem
+mkdir /etc/stud
+touch /etc/stud/stud.conf
+touch /etc/init.d/stud
+chmod +x /etc/init.d/stud

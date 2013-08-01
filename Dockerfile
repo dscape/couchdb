@@ -7,6 +7,15 @@ from       ubuntu
 maintainer Nuno Job "nunojobpinto@gmail.com"
 
 #
+# define an helper function to run command in verbose mode
+# so that docker does not invalidate cache on each run
+#
+function preserve_caches {
+  long_cmd=$(< $1)
+  echo "$long_cmd"
+}
+
+#
 # adds the installation scripts to the image
 #
 # same as a copy of the opt/install folder in this repo
@@ -21,7 +30,7 @@ add ./opt /opt
 #
 # update/upgrade apt
 #
-run /opt/install/dscape/couchdb/apt-update
+run $(preserve_caches /opt/install/dscape/couchdb/apt-update)
 
 #
 # running scripts in individual scripts makes your scm happy

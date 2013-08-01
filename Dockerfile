@@ -9,10 +9,10 @@ maintainer Nuno Job "nunojobpinto@gmail.com"
 #
 # adds the installation scripts to the image
 #
-# same as a recursive copy of the opt/ folder in this repo
-# to /opt
+# same as a copy of the opt/install folder in this repo
+# to /opt/install
 # 
-add ./opt /opt
+add ./opt/install /opt/install
 
 #
 # run are steps that are run to create the image

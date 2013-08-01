@@ -7,18 +7,18 @@ from       ubuntu
 maintainer Nuno Job "nunojobpinto@gmail.com"
 
 #
-# define an helper function to run command in verbose mode
-# so that docker does not invalidate cache on each run
-#
-run . /opt/install/dscape/couchdb/preserve_caches
-
-#
 # adds the installation scripts to the image
 #
 # same as a copy of the opt/install folder in this repo
 # to /opt/install
 # 
 add ./opt /opt
+
+#
+# define an helper function to run command in verbose mode
+# so that docker does not invalidate cache on each run
+#
+run . /opt/install/dscape/couchdb/preserve_caches
 
 #
 # run are steps that are run to create the image

@@ -19,8 +19,7 @@ add ./opt /opt
 # so that docker does not invalidate cache on each run
 #
 run touch ~/.profile
-run cat /opt/install/dscape/couchdb/preserve_caches >> \
- ~/.profile
+run cat /opt/install/dscape/couchdb/preserve_caches >> ~/.profile
 
 #
 # run are steps that are run to create the image

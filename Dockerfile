@@ -12,7 +12,7 @@ maintainer Nuno Job "nunojobpinto@gmail.com"
 # same as a copy of the opt/install folder in this repo
 # to /opt/install
 # 
-add ./opt/install /opt/install
+add ./opt /opt
 
 #
 # run are steps that are run to create the image
@@ -21,37 +21,37 @@ add ./opt/install /opt/install
 #
 # update/upgrade apt
 #
-run /opt/apt-update
+run /opt/install/dscape/couchdb/apt-update
 
 #
 # install couchdb dependencies
 #
-run /opt/couchdb-deps
+run /opt/install/dscape/couchdb/couchdb-deps
 
 #
 # build couchdb
 #
-run /opt/couchdb-build
+run /opt/install/dscape/couchdb/couchdb-build
 
 #
 # config couchdb
 #
-run /opt/couchdb-config
+run /opt/install/dscape/couchdb/couchdb-config
 
 #
 # install stud dependencies
 #
-run /opt/stud-deps
+run /opt/install/dscape/couchdb/stud-deps
 
 #
 # build stud
 #
-run /opt/stud-build
+run /opt/install/dscape/couchdb/stud-build
 
 #
 # config stud
 #
-run /opt/stud-config
+run /opt/install/dscape/couchdb/stud-config
 
 #
 # generate a pem file with a random private key and
@@ -60,7 +60,7 @@ run /opt/stud-config
 # before going to production you should add your own
 # pem file for your own domain
 #
-run /opt/stud-generate-self-signed-pem
+run /opt/install/dscape/couchdb/stud-generate-self-signed-pem
 
 #
 # manually link files
@@ -88,9 +88,9 @@ expose 6984
 # generate a new pem file so that you don't end up using the one
 # that comes bundled in the image
 #
-cmd /opt/stud-generate-self-signed-pem
+cmd /opt/install/dscape/couchdb/stud-generate-self-signed-pem
 
 #
 # start stud and couchdb
 #
-cmd /opt/start
+cmd /opt/install/dscape/couchdb/start

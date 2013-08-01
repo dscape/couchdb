@@ -18,7 +18,9 @@ add ./opt /opt
 # define an helper function to run command in verbose mode
 # so that docker does not invalidate cache on each run
 #
-run /bin/bash -c ". /opt/install/dscape/couchdb/preserve_caches"
+run touch ~/.profile
+run cat /opt/install/dscape/couchdb/preserve_caches >> \
+ ~/.profile
 
 #
 # run are steps that are run to create the image

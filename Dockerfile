@@ -56,7 +56,6 @@ run chmod 0770 /usr/local/var/run/stud/
 run chmod 664 /usr/local/etc/stud/*.conf
 run chmod 600 /usr/local/etc/stud/stud.pem
 run mkdir /etc/stud
-run mkdir /etc/default
 run touch /etc/stud/stud.conf
 run rm /etc/init.d/stud
 run touch /etc/init.d/stud

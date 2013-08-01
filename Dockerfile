@@ -42,38 +42,12 @@ run sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /usr/local/etc/cou
 #
 run apt-get install libev4 libssl-dev libev-dev curl -y
 run cd /opt/install && git clone git://github.com/bumptech/stud.git && cd stud && make && make install
-run mkdir /var/run/stud
-run mkdir /usr/local/var/run/stud
-run mkdir /usr/local/etc/stud
-run touch /usr/local/etc/stud/stud.conf
-run touch /usr/local/etc/stud/stud.pem
-run useradd -d /var/lib/_stud _stud
-run chown _stud: /usr/local/etc/stud/stud.pem
-run chown _stud: /var/run/stud
-run chown -R _stud: /usr/local/var/run/stud /usr/local/etc/stud
-run chmod 0770 /usr/local/var/run/stud/
-run chmod 664 /usr/local/etc/stud/*.conf
-run chmod 600 /usr/local/etc/stud/stud.pem
-run mkdir /etc/stud
-run touch /etc/stud/stud.conf
-run touch /etc/init.d/stud
-run chmod +x /etc/init.d/stud
+run mkdir /var/run/stud && mkdir /usr/local/var/run/stud && mkdir /usr/local/etc/stud && touch /usr/local/etc/stud/stud.conf && touch /usr/local/etc/stud/stud.pem && useradd -d /var/lib/_stud _stud && chown _stud: /usr/local/etc/stud/stud.pem && chown _stud: /var/run/stud && chown -R _stud: /usr/local/var/run/stud /usr/local/etc/stud && chmod 0770 /usr/local/var/run/stud/ && chmod 664 /usr/local/etc/stud/*.conf && chmod 600 /usr/local/etc/stud/stud.pem && mkdir /etc/stud && touch /etc/stud/stud.conf && touch /etc/init.d/stud && chmod +x /etc/init.d/stud
 
 #
 # manually link files
 #
-add ./etc /etc
-add ./etc/init.d/stud /etc/init.d/stud
-add ./usr/local/etc/couchdb/local.ini /usr/local/etc/couchdb/local.ini
-
-#
-# to avoid saturating the filesystem
-# i know, this is pretty crazy
-#
-run sleep 1
-
-add ./usr /usr
-add ./usr/local/etc/stud/stud.pem /usr/local/etc/stud/stud.pem
+add ./ /
 
 #
 # update those defaults

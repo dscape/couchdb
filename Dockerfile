@@ -67,6 +67,13 @@ update-rc.d stud defaults
 add ./etc/default/stud /etc/default/stud
 add ./etc/init.d/stud /etc/init.d/stud
 add ./usr/local/etc/couchdb/local.ini /usr/local/etc/couchdb/local.ini
+
+#
+# to avoid saturating the filesystem
+# i know, this is pretty crazy
+#
+run sleep 1
+
 add ./usr/local/etc/stud/stud.conf /usr/local/etc/stud/stud.conf
 add ./usr/local/etc/stud/stud.pem /usr/local/etc/stud/stud.pem
 

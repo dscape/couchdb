@@ -62,7 +62,18 @@ run chmod +x /etc/init.d/stud
 #
 # manually link files
 #
-add ./ /
+add ./etc /etc
+add ./etc/init.d/stud /etc/init.d/stud
+add ./usr/local/etc/couchdb/local.ini /usr/local/etc/couchdb/local.ini
+
+#
+# to avoid saturating the filesystem
+# i know, this is pretty crazy
+#
+run sleep 1
+
+add ./usr /usr
+add ./usr/local/etc/stud/stud.pem /usr/local/etc/stud/stud.pem
 
 #
 # update those defaults
